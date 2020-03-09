@@ -32,7 +32,7 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         // GET: api/orders/order
         [HttpGet]
-        [Route("GetOrder/{OrderId}")]
+        [Route("GetOrder/{orderId}")]
         public APIResponse GetOrder(int orderId)
         {
             HttpStatusCode status = HttpStatusCode.OK;
@@ -59,7 +59,7 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         // GET: api/orders/order
         [HttpGet]
-        [Route("GetOrders/{CustomerId}")]
+        [Route("GetOrders/{customerId}")]
         public APIResponse GetOrders(int? customerId)
         {
             HttpStatusCode status = HttpStatusCode.OK;

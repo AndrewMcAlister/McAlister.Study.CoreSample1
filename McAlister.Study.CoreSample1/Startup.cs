@@ -77,7 +77,7 @@ namespace McAlister.Study.CoreSample1
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/swagger.json", "CoreSample1 v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CoreSample1 v1");
             });
 
             app.UseRouting();
