@@ -1,22 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using McAlister.Study.CoreSample1.Definitions;
 using McAlister.Study.CoreSample1.Entities;
+using McAlister.Study.CoreSample1.MapperProfiles;
 using McAlister.Study.CoreSample1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using McAlister.Study.CoreSample1.MapperProfiles;
 using Microsoft.OpenApi.Models;
 
 namespace McAlister.Study.CoreSample1
