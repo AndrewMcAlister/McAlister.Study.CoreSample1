@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -49,68 +45,25 @@ namespace McAlister.Study.CoreSample1.Services
 
         public virtual IQueryable<T> GetList<T>(Expression<Func<T, bool>> predicate) where T : class
         {
-            try
-            {
-                return DataContext.Set<T>().Where(predicate);
-            }
-            catch (MetadataException mex)
-            {
-                throw mex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return DataContext.Set<T>().Where(predicate);
         }
 
         public virtual IQueryable<T> GetList<T, TKey>(Expression<Func<T, bool>> predicate,
             Expression<Func<T, TKey>> orderBy) where T : class
         {
-            try
-            {
-                return GetList(predicate).OrderBy(orderBy);
-            }
-            catch (MetadataException mex)
-            {
-                throw mex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return GetList(predicate).OrderBy(orderBy);
+
         }
 
         public virtual IQueryable<T> GetList<T, TKey>(Expression<Func<T, TKey>> orderBy) where T : class
         {
-            try
-            {
-                return GetList<T>().OrderBy(orderBy);
-            }
-            catch (MetadataException mex)
-            {
-                throw mex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return GetList<T>().OrderBy(orderBy);
         }
 
 
         public virtual IQueryable<T> GetList<T>() where T : class
         {
-            try
-            {
-                return DataContext.Set<T>();
-            }
-            catch (MetadataException mex)
-            {
-                throw mex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return DataContext.Set<T>();
         }
 
         public T AddOrUpdate<T>(T entity) where T : class
@@ -189,86 +142,44 @@ namespace McAlister.Study.CoreSample1.Services
         public int SubmitChanges()
         {
             int result = 0;
-            String errors = null;
             try
             {
                 result = this.DataContext.SaveChanges();
             }
-            catch (DbEntityValidationException dbEx)
-            {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    this.TrackEntityChanges(validationErrors.Entry);
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        errors += validationError.ErrorMessage;
-                    }
-                    throw new Exception(errors);
-                }
-            }
-            catch (System.Data.Entity.ModelConfiguration.ModelValidationException ex)
-            {
-                this.TrackEntityChanges();
-                var sqlException = ex.GetBaseException() as System.Data.SqlClient.SqlException;
-                if (sqlException != null)
-                    throw sqlException;
-                throw ex;
-            }
-            catch (System.Data.Entity.Infrastructure.DbUpdateException dbUEx)
+            catch (DbUpdateException dbUEx)
             {
                 TrackEntityChanges();
-                var sqlException = dbUEx.GetBaseException() as System.Data.SqlClient.SqlException;
+                var sqlException = dbUEx.GetBaseException();
                 if (sqlException != null)
                     throw sqlException;
                 throw dbUEx;
             }
             catch (Exception ex)
-            { throw ex; }
+            {
+                throw ex;
+            }
             return result;
-
         }
 
         public async Task<int> SubmitChangesAsync()
         {
             int result = 0;
-            String errors = null;
             try
             {
                 result = await this.DataContext.SaveChangesAsync();
             }
-            catch (DbEntityValidationException dbEx)
-            {
-                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                {
-                    this.TrackEntityChanges(validationErrors.Entry);
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        errors += validationError.ErrorMessage;
-                    }
-                    throw new Exception(errors);
-                }
-            }
-            catch (System.Data.Entity.ModelConfiguration.ModelValidationException ex)
-            {
-                this.TrackEntityChanges();
-                var sqlException = ex.GetBaseException() as System.Data.SqlClient.SqlException;
-                if (sqlException != null)
-                    throw sqlException;
-                throw ex;
-            }
-            catch (System.Data.Entity.Infrastructure.DbUpdateException dbUEx)
+            catch (DbUpdateException dbUEx)
             {
                 TrackEntityChanges();
-                var sqlException = dbUEx.GetBaseException() as System.Data.SqlClient.SqlException;
+                var sqlException = dbUEx.GetBaseException();
                 if (sqlException != null)
                     throw sqlException;
                 throw dbUEx;
             }
             catch (Exception ex)
-            { throw ex; }
-
+            {
+                throw ex;
+            }
             return result;
         }
 
@@ -289,20 +200,6 @@ namespace McAlister.Study.CoreSample1.Services
                     break;
                 case EntityState.Modified:
                 case EntityState.Deleted:
-                    entry.Reload();
-                    break;
-            }
-        }
-
-        private void TrackEntityChanges(DbEntityEntry entry)
-        {
-            switch (entry.State)// (Microsoft.EntityFrameworkCore.EntityState)entry.State)
-            {
-                case System.Data.Entity.EntityState.Added:
-                    entry.State = System.Data.Entity.EntityState.Detached;
-                    break;
-                case System.Data.Entity.EntityState.Modified:
-                case System.Data.Entity.EntityState.Deleted:
                     entry.Reload();
                     break;
             }
