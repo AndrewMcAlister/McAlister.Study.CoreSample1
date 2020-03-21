@@ -19,11 +19,13 @@ namespace McAlister.Study.CoreSample1.Controllers
     public class OrdersController : ControllerBase
     {
         private Order _order;
+        private OrderCtx _orderCtx;
         private ILogger<DebugLoggerProvider> _loggerDebug;
 
-        public OrdersController(IRepository repo, IMapper mapper, ILogger<DebugLoggerProvider> logger)
+        public OrdersController(IRepository repo, IMapper mapper, ILogger<DebugLoggerProvider> logger, Order order, OrderCtx orderCtx)
         {
-            _order = new Order(repo, mapper);
+            _order = order;
+            _orderCtx = orderCtx;
             _loggerDebug = logger;
         }
 
@@ -90,7 +92,7 @@ namespace McAlister.Study.CoreSample1.Controllers
             Exception exForReponse = null;
             try
             {
-                ords = _order.GetOrders(customerId, page);
+                ords = _orderCtx.GetOrders(customerId, page);
                 if (ords == null || !ords.Any())
                 {
                     status = HttpStatusCode.NotFound;

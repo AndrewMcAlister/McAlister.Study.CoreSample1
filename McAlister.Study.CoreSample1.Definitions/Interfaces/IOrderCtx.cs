@@ -5,9 +5,9 @@ using System.Data;
 using System.Text;
 using df=McAlister.Study.CoreSample1.Definitions;
 
-namespace McAlister.Study.CoreSample1.Business
+namespace McAlister.Study.CoreSample1.Definitions
 {
-    public interface IOrder
+    public interface IOrderCtx
     {
         void Delete(int id);
         df.Entities.Orders FindExact(Orders ord);

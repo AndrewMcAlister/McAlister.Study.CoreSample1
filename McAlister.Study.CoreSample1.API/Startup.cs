@@ -34,7 +34,8 @@ namespace McAlister.Study.CoreSample1
             });
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<WideWorldImportersContext, WideWorldImportersContext>();
-            services.AddScoped<IOrder, Order>();
+            services.AddScoped<Order, Order>();
+            services.AddScoped<OrderCtx, OrderCtx>();
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

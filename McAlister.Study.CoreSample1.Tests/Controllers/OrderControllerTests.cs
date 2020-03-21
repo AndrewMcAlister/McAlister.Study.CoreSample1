@@ -48,6 +48,39 @@ namespace McAlister.Study.CoreSample1.Tests.Controllers
             }
         }
 
+        [TestMethod]
+        public void GetOrdersSpeedTestRepo2()
+        {
+            for (int i = 1; i < 1062; i++)
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer/{i}/page=1");
+                var r = (HttpWebResponse)request.GetResponse();
+                Stream receiveStream = r.GetResponseStream();
+                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                using (StreamReader sr = new StreamReader(receiveStream, encode))
+                {
+                    String str = sr.ReadToEnd();
+                    Console.Write(str);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetOrdersSpeedTestDbContext2()
+        {
+            for (int i = 1; i < 1062; i++)
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer2/{i}/page=1");
+                var r = (HttpWebResponse)request.GetResponse();
+                Stream receiveStream = r.GetResponseStream();
+                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                using (StreamReader sr = new StreamReader(receiveStream, encode))
+                {
+                    String str = sr.ReadToEnd();
+                    Console.Write(str);
+                }
+            }
+        }
         //[TestMethod]
         //public void GetApplicationsNoEFSpeedTest()
         //{
