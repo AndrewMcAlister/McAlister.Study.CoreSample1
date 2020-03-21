@@ -1,5 +1,4 @@
 ﻿using McAlister.Study.CoreSample1.DAL;
-using McAlister.Study.CoreSample1.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace McAlister.Study.CoreSample1.Services
     ///Entity Container Name must match line below, and there must be a connection string of same name in ProdAdd even though we want to overwrite connection string.
     ///Do not return IQueryable ! https://blog.ploeh.dk/2012/03/26/IQueryableTisTightCoupling/
     ///Note .AsNoTracking().ToList() quicker if readonly.
-    public class Repository : GenericRepository<WideWorldImportersContext>, df.IRepository, IDisposable
+    public class Repository : GenericRepository<WideWorldImportersContext>, IRepository, IDisposable
     {
         public String ConnStr
         {
@@ -25,11 +24,11 @@ namespace McAlister.Study.CoreSample1.Services
             }
         }
 
-        public DbContext Context
+        public WideWorldImportersContext Context
         {
             get
             {
-                return base.DataContext;
+                return (WideWorldImportersContext)base.DataContext;
             }
         }
 
@@ -44,22 +43,22 @@ namespace McAlister.Study.CoreSample1.Services
         }
 
         #region Generic
-        ICollection<T> df.IRepository.GetList<T>(Expression<Func<T, bool>> predicate)
+        ICollection<T> IRepository.GetList<T>(Expression<Func<T, bool>> predicate)
         {
             return base.GetList<T>(predicate).ToList();
         }
 
-        ICollection<T> df.IRepository.GetList<T, TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy)
+        ICollection<T> IRepository.GetList<T,TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, bool isDescending, int pageSize, int page)
         {
-            return base.GetList<T, TKey>(predicate, orderBy).ToList();
+            return base.GetList<T,TKey>(predicate, orderBy, isDescending, pageSize, page).ToList();
         }
 
-        ICollection<T> df.IRepository.GetList<T, TKey>(Expression<Func<T, TKey>> orderBy)
+        ICollection<T> IRepository.GetList<T, TKey>(Expression<Func<T, TKey>> orderBy, bool isDescending, int pageSize, int page)
         {
-            return base.GetList<T, TKey>(orderBy).ToList();
+            return base.GetList<T,TKey>(orderBy, isDescending, pageSize, page).ToList();
         }
 
-        ICollection<T> df.IRepository.GetList<T>()
+        ICollection<T> IRepository.GetList<T>()
         {
             return base.GetList<T>().ToList();
         }

@@ -3,7 +3,7 @@ using McAlister.Study.CoreSample1.Definitions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace McAlister.Study.CoreSample1.Entities
+namespace McAlister.Study.CoreSample1.DAL
 {
     public partial class WideWorldImportersContext : DbContext
     {

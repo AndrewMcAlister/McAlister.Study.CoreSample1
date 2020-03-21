@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using McAlister.Study.CoreSample1.Definitions;
+using McAlister.Study.CoreSample1.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,30 +15,11 @@ namespace McAlister.Study.CoreSample1.Business
     public class Order : BusinessBase<df.Entities.Orders>, IOrder
     {
         private IMapper _mapper;
+        private int _pageSize = 50;
 
-        public Order(df.IRepository repo, IMapper mapper) : base(repo)
+        public Order(IRepository repo, IMapper mapper) : base(repo)
         {
             _mapper = mapper;
-        }
-
-        public List<df.Models.Order> GetOrdersNoEF()
-        {
-            var lstModel = new List<df.Models.Order>();
-            try
-            {
-                var lstEntity = base.Repo.GetOrdersNoEF().ToList();
-                lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return lstModel;
-        }
-
-        public DataTable GetOrdersNoEFDT()
-        {
-            return Repo.GetOrdersNoEFDT();
         }
 
         public df.Models.Order GetOrder(int orderId)
@@ -45,7 +27,7 @@ namespace McAlister.Study.CoreSample1.Business
             df.Models.Order m = null;
             try
             {
-                var e = base.Get(o => o.OrderId == orderId);
+                var e = Get(o => o.OrderId == orderId);
                 if (e != null)
                     m = _mapper.Map<df.Entities.Orders, df.Models.Order>(e);
             }
@@ -56,12 +38,29 @@ namespace McAlister.Study.CoreSample1.Business
             return m;
         }
 
-        public List<df.Models.Order> GetOrders(int? customerId)
+        public List<df.Models.Order> GetOrders(int? customerId, int? page = 1)
         {
             var lstModel = new List<df.Models.Order>();
             try
             {
-                var lstEntity = base.GetList(o => o.CustomerId == customerId || !customerId.HasValue);
+                //var lstEntity = base.GetList(o => o.CustomerId == customerId || !customerId.HasValue);
+                var lstEntity = GetList(o => o.CustomerId == customerId || !customerId.HasValue,orderBy: (p=>p.OrderDate),true, _pageSize,page.Value);
+                lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return lstModel;
+        }
+
+        public List<df.Models.Order> GetOrders2(int? customerId, int? page = 1)
+        {
+            var lstModel = new List<df.Models.Order>();
+            try
+            {
+                var lstEntity = Repo.Context.Orders.Where(p => (!customerId.HasValue || p.CustomerId == customerId.Value))
+                    .OrderByDescending(p => p.OrderDate).Skip(_pageSize * (page.Value - 1)).Take(_pageSize).ToList();
                 lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
             }
             catch (Exception ex)
@@ -97,7 +96,7 @@ namespace McAlister.Study.CoreSample1.Business
 
         public void Delete(int id)
         {
-            var ent = base.Get(p => p.OrderId == id);
+            var ent = Get(p => p.OrderId == id);
             if (ent != null) //as its a delete, no error id doesn't exist
                 base.Delete(ent);
         }
@@ -106,10 +105,30 @@ namespace McAlister.Study.CoreSample1.Business
         {
             //intended for use internally by ModelBase
             //entity is used as a search object
-            var ent = base.Get(p => p.OrderId == ord.OrderId);
+            var ent = Get(p => p.OrderId == ord.OrderId);
             return ent;
         }
 
+
+        public List<df.Models.Order> GetOrdersNoEF()
+        {
+            var lstModel = new List<df.Models.Order>();
+            try
+            {
+                var lstEntity = Repo.GetOrdersNoEF().ToList();
+                lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return lstModel;
+        }
+
+        public DataTable GetOrdersNoEFDT()
+        {
+            return Repo.GetOrdersNoEFDT();
+        }
     }
 }
  

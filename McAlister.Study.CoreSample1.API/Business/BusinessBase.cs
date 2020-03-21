@@ -1,28 +1,22 @@
-﻿using System;
+﻿using McAlister.Study.CoreSample1.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Business
 {
     public abstract class BusinessBase<T> where T : class
     {
-        public df.IRepository Repo { get; set; }
+        protected IRepository Repo { get; set; }
 
         public abstract Boolean IsValid(T entity, ref String msg);
 
         public abstract T FindExact(T entity);
 
-        public BusinessBase(df.IRepository repo)
+        public BusinessBase(IRepository repo)
         {
             Repo = repo;
-        }
-
-        public virtual bool AlreadyExists(T entity)
-        {
-            Boolean result = FindExact(entity) != null;
-            return result;
         }
 
         public virtual T Insert(T entity)
@@ -70,6 +64,12 @@ namespace McAlister.Study.CoreSample1.Business
         public virtual List<T> GetList(Expression<Func<T, bool>> predicate)
         {
             return Repo.GetList<T>(predicate).ToList();
+        }
+
+        //df.IRepository.GetList<T, TKey>(Expression<Func<T, bool>> predicate, Expression<Func<T, TKey>> orderBy, int pageSize, int page)
+        public virtual List<T> GetList<TKey>(Expression<Func<T,bool>> predicate, Expression<Func<T,TKey>>orderBy, bool isDescending, int pageSize, int page)
+        {
+            return Repo.GetList(predicate,orderBy, isDescending, pageSize,page).ToList();
         }
 
         public virtual List<T> GetList()

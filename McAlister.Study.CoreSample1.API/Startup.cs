@@ -1,7 +1,7 @@
 using AutoMapper;
 using McAlister.Study.CoreSample1.Business;
+using McAlister.Study.CoreSample1.DAL;
 using McAlister.Study.CoreSample1.Definitions;
-using McAlister.Study.CoreSample1.Entities;
 using McAlister.Study.CoreSample1.MapperProfiles;
 using McAlister.Study.CoreSample1.Services;
 using Microsoft.AspNetCore.Builder;

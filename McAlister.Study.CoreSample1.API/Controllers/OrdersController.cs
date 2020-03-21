@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using McAlister.Study.CoreSample1.Business;
 using McAlister.Study.CoreSample1.Definitions;
+using McAlister.Study.CoreSample1.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
@@ -20,7 +21,7 @@ namespace McAlister.Study.CoreSample1.Controllers
         private Order _order;
         private ILogger<DebugLoggerProvider> _loggerDebug;
 
-        public OrdersController(df.IRepository repo, IMapper mapper, ILogger<DebugLoggerProvider> logger)
+        public OrdersController(IRepository repo, IMapper mapper, ILogger<DebugLoggerProvider> logger)
         {
             _order = new Order(repo, mapper);
             _loggerDebug = logger;
@@ -28,7 +29,7 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         // GET: api/orders/order
         [HttpGet]
-        [Route("GetOrder/{orderId}")]
+        [Route("Order/{orderId}")]
         public APIResponse GetOrder(int orderId)
         {
             HttpStatusCode status = HttpStatusCode.OK;
@@ -53,17 +54,17 @@ namespace McAlister.Study.CoreSample1.Controllers
             return res;
         }
 
-        // GET: api/orders/order
+        // GET: api/orders/Customer
         [HttpGet]
-        [Route("GetOrders/{customerId}")]
-        public APIResponse GetOrders(int? customerId)
+        [Route("Customer/{customerId}/page={page}")]
+        public APIResponse GetOrders(int? customerId=null, int? page=null)
         {
             HttpStatusCode status = HttpStatusCode.OK;
             List<df.Models.Order> ords = null;
             Exception exForReponse = null;
             try
             {
-                ords = _order.GetOrders(customerId);
+                ords = _order.GetOrders(customerId,page);
                 if (ords == null || !ords.Any())
                 {
                     status = HttpStatusCode.NotFound;
@@ -79,57 +80,35 @@ namespace McAlister.Study.CoreSample1.Controllers
             return res;
         }
 
-        // GET: api/ordersNoEF
+        // GET: api/orders/Customer
         [HttpGet]
-        [Route("GetOrdersNoEF")]
-        public APIResponse GetOrdersNoEF()
+        [Route("Customer2/{customerId}/page={page}")]
+        public APIResponse GetOrders2(int? customerId=null, int? page = null)
         {
             HttpStatusCode status = HttpStatusCode.OK;
-            List<df.Models.Order> lst = null;
+            List<df.Models.Order> ords = null;
             Exception exForReponse = null;
             try
             {
-                lst = _order.GetOrdersNoEF();
-                if (lst == null || !lst.Any())
+                ords = _order.GetOrders(customerId, page);
+                if (ords == null || !ords.Any())
                 {
                     status = HttpStatusCode.NotFound;
                 }
+                //else if (other conditions)
+                //status = HttpStatusCode.BadRequest; etc
             }
             catch (Exception ex)
             {
                 exForReponse = ex;
             }
-            var res = Utility.CreateAPIResponse(lst, status, _loggerDebug, exForReponse);
+            var res = Utility.CreateAPIResponse(ords, status, _loggerDebug, exForReponse);
             return res;
         }
 
-        // GET: api/ordersNoEFDT
-        [HttpGet]
-        [Route("GetOrdersNoEFDT")]
-        public APIResponse GetOrdersNoEFDT()
-        {
-            HttpStatusCode status = HttpStatusCode.OK;
-            DataTable dt = null;
-            Exception exForReponse = null;
-            try
-            {
-                dt = _order.GetOrdersNoEFDT();
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    status = HttpStatusCode.NotFound;
-                }
-            }
-            catch (Exception ex)
-            {
-                exForReponse = ex;
-            }
-            var res = Utility.CreateAPIResponse(dt, status, _loggerDebug, exForReponse);
-            return res;
-        }
 
-        // POST: api/order
+        // POST: api/orders
         [HttpPost]
-        [Route("New")]
         public APIResponse Post([FromBody]df.Models.Order value)
         {
             HttpStatusCode status = HttpStatusCode.OK;
@@ -153,7 +132,6 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         [HttpPut]
         // PUT: api/order
-        [Route("Update")]
         public APIResponse Put([FromBody]df.Models.Order value)
         {
             HttpStatusCode status = HttpStatusCode.OK;
@@ -177,7 +155,7 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         // DELETE: api/orders
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Order")]
         public APIResponse Delete(int id)
         {
             HttpStatusCode status = HttpStatusCode.OK;
@@ -198,5 +176,53 @@ namespace McAlister.Study.CoreSample1.Controllers
             var res = Utility.CreateAPIResponse(null, status, _loggerDebug, exForReponse);
             return res;
         }
+        
+        //// GET: api/ordersNoEF
+        //[HttpGet]
+        //[Route("GetOrdersNoEF")]
+        //public APIResponse GetOrdersNoEF()
+        //{
+        //    HttpStatusCode status = HttpStatusCode.OK;
+        //    List<df.Models.Order> lst = null;
+        //    Exception exForReponse = null;
+        //    try
+        //    {
+        //        lst = _order.GetOrdersNoEF();
+        //        if (lst == null || !lst.Any())
+        //        {
+        //            status = HttpStatusCode.NotFound;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        exForReponse = ex;
+        //    }
+        //    var res = Utility.CreateAPIResponse(lst, status, _loggerDebug, exForReponse);
+        //    return res;
+        //}
+
+        //// GET: api/ordersNoEFDT
+        //[HttpGet]
+        //[Route("GetOrdersNoEFDT")]
+        //public APIResponse GetOrdersNoEFDT()
+        //{
+        //    HttpStatusCode status = HttpStatusCode.OK;
+        //    DataTable dt = null;
+        //    Exception exForReponse = null;
+        //    try
+        //    {
+        //        dt = _order.GetOrdersNoEFDT();
+        //        if (dt == null || dt.Rows.Count == 0)
+        //        {
+        //            status = HttpStatusCode.NotFound;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        exForReponse = ex;
+        //    }
+        //    var res = Utility.CreateAPIResponse(dt, status, _loggerDebug, exForReponse);
+        //    return res;
+        //}
     }
 }

@@ -12,7 +12,7 @@ namespace McAlister.Study.CoreSample1.Definitions
         void Delete(int id);
         df.Entities.Orders FindExact(Orders ord);
         Definitions.Models.Order GetOrder(int orderId);
-        List<Definitions.Models.Order> GetOrders(int? customerId);
+        List<Definitions.Models.Order> GetOrders(int? customerId, int? page);
         List<Definitions.Models.Order> GetOrdersNoEF();
         DataTable GetOrdersNoEFDT();
         void Insert(Definitions.Models.Order order);

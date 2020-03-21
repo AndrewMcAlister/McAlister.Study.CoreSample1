@@ -15,19 +15,36 @@ namespace McAlister.Study.CoreSample1.Tests.Controllers
         }
 
         [TestMethod]
-        public void GetApplicationsSpeedTest()
+        public void GetOrdersSpeedTestRepo()
         {
             for (int i = 1; i < 1062; i++)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost:44344/api/Orders/GetOrders/{i}");
-                var r=(HttpWebResponse)request.GetResponse();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer/{i}/page=1");
+                var r = (HttpWebResponse)request.GetResponse();
                 Stream receiveStream = r.GetResponseStream();
                 Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                using(StreamReader sr = new StreamReader(receiveStream, encode))
+                using (StreamReader sr = new StreamReader(receiveStream, encode))
                 {
-                    String str=sr.ReadToEnd();
+                    String str = sr.ReadToEnd();
                     Console.Write(str);
-                }                
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetOrdersSpeedTestDbContext()
+        {
+            for (int i = 1; i < 1062; i++)
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer2/{i}/page=1");
+                var r = (HttpWebResponse)request.GetResponse();
+                Stream receiveStream = r.GetResponseStream();
+                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                using (StreamReader sr = new StreamReader(receiveStream, encode))
+                {
+                    String str = sr.ReadToEnd();
+                    Console.Write(str);
+                }
             }
         }
 

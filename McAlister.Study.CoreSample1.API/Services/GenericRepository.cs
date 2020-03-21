@@ -49,15 +49,20 @@ namespace McAlister.Study.CoreSample1.Services
         }
 
         public virtual IQueryable<T> GetList<T, TKey>(Expression<Func<T, bool>> predicate,
-            Expression<Func<T, TKey>> orderBy) where T : class
+            Expression<Func<T, TKey>> orderBy, bool isDescending, int pageSize, int page) where T : class
         {
-            return GetList(predicate).OrderBy(orderBy);
-
+            if(isDescending)
+                return GetList(predicate).OrderByDescending(orderBy).Skip(pageSize * (page - 1)).Take(pageSize);
+            else
+                return GetList(predicate).OrderBy(orderBy).Skip(pageSize * (page - 1)).Take(pageSize);
         }
 
-        public virtual IQueryable<T> GetList<T, TKey>(Expression<Func<T, TKey>> orderBy) where T : class
+        public virtual IQueryable<T> GetList<T, TKey>(Expression<Func<T, TKey>> orderBy, bool isDecending, int pageSize, int page) where T : class
         {
-            return GetList<T>().OrderBy(orderBy);
+            if(isDecending)
+                return GetList<T>().OrderByDescending(orderBy).Skip(pageSize * (page - 1)).Take(pageSize);
+            else
+                return GetList<T>().OrderBy(orderBy).Skip(pageSize * (page - 1)).Take(pageSize);
         }
 
 
