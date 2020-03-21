@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using McAlister.Study.CoreSample1.Business;
-using df = McAlister.Study.CoreSample1.Definitions;
-using AutoMapper;
-using System.Net;
 using McAlister.Study.CoreSample1.Definitions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net;
+using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Controllers
 {

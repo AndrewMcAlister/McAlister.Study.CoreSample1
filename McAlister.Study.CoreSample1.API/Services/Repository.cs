@@ -1,17 +1,13 @@
-﻿using McAlister.Study.CoreSample1.Entities;
+﻿using McAlister.Study.CoreSample1.DAL;
+using McAlister.Study.CoreSample1.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using df = McAlister.Study.CoreSample1.Definitions;
 using dfe = McAlister.Study.CoreSample1.Definitions.Entities;
-using McAlister.Study.CoreSample1.DAL;
-using System.Linq.Expressions;
-using McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Services
 {

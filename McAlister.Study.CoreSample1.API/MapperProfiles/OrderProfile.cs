@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using df=McAlister.Study.CoreSample1.Definitions;
-using AutoMapper;
+﻿using AutoMapper;
+using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.MapperProfiles
 {

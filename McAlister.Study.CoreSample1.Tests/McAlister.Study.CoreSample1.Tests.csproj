@@ -22,10 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\McAlister.Study.CoreSample1.API\McAlister.Study.CoreSample.API.csproj" />
-    <ProjectReference Include="..\McAlister.Study.CoreSample1.DAL\McAlister.Study.CoreSample1.DAL.csproj" />
-    <ProjectReference Include="..\McAlister.Study.CoreSample1\McAlister.Study.CoreSampleAPI.csproj" />
-  </ItemGroup>
-
 </Project>

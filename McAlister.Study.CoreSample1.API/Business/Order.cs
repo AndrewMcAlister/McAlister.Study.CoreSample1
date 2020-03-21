@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Linq.Expressions;
-using System.Data;
-using AutoMapper;
-using df = McAlister.Study.CoreSample1.Definitions;
-using McAlister.Study.CoreSample1.Business;
+﻿using AutoMapper;
 using McAlister.Study.CoreSample1.Definitions;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Business
 {

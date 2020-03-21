@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using df=McAlister.Study.CoreSample1.Definitions;
+using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Business
 {

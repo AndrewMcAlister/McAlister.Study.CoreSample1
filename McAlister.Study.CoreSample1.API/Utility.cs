@@ -1,14 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using df=McAlister.Study.CoreSample1.Definitions;
 using System.Net;
-using Microsoft.Extensions.Logging;
+using System.Reflection;
+using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1
 {
