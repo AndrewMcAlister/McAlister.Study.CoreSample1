@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using McAlister.Study.CoreSample1.Models;
+using McAlister.Study.CoreSample1.Business;
 using df = McAlister.Study.CoreSample1.Definitions;
 using AutoMapper;
 using System.Net;

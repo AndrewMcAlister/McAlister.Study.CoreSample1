@@ -1,4 +1,5 @@
 using AutoMapper;
+using McAlister.Study.CoreSample1.Business;
 using McAlister.Study.CoreSample1.Definitions;
 using McAlister.Study.CoreSample1.Entities;
 using McAlister.Study.CoreSample1.MapperProfiles;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace McAlister.Study.CoreSample1.Tests
+namespace McAlister.Study.CoreSample1
 {
     public class Startup
     {
@@ -31,7 +32,9 @@ namespace McAlister.Study.CoreSample1.Tests
             {
                 options.UseSqlServer(str);
             });
-            services.AddSingleton<IRepository, Repository>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<WideWorldImportersContext, WideWorldImportersContext>();
+            services.AddScoped<IOrder, Order>();
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

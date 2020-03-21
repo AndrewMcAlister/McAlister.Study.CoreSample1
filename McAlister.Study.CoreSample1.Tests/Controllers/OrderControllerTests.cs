@@ -1,16 +1,8 @@
-﻿using AutoMapper;
-using McAlister.Study.CoreSample1.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using McAlister.Study.CoreSample1.Controllers;
-using df = McAlister.Study.CoreSample1.Definitions;
-using System.Data;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Text;
 
 namespace McAlister.Study.CoreSample1.Tests.Controllers
 {

@@ -6,17 +6,19 @@ using System.Linq.Expressions;
 using System.Data;
 using AutoMapper;
 using df = McAlister.Study.CoreSample1.Definitions;
+using McAlister.Study.CoreSample1.Business;
+using McAlister.Study.CoreSample1.Definitions;
 
-namespace McAlister.Study.CoreSample1.Models
+namespace McAlister.Study.CoreSample1.Business
 {
     /// <summary>
     /// Application model saves and retrieves data - gateway to business libraries
     /// </summary>
-    public class Order : ModelBase<df.Entities.Orders>
+    public class Order : BusinessBase<df.Entities.Orders>, IOrder
     {
         private IMapper _mapper;
 
-        public Order(df.IRepository repo, IMapper mapper): base(repo)
+        public Order(df.IRepository repo, IMapper mapper) : base(repo)
         {
             _mapper = mapper;
         }
@@ -43,11 +45,11 @@ namespace McAlister.Study.CoreSample1.Models
 
         public df.Models.Order GetOrder(int orderId)
         {
-            df.Models.Order m=null;
+            df.Models.Order m = null;
             try
             {
-                var e = base.Get(o=>o.OrderId==orderId);
-                if(e!=null)
+                var e = base.Get(o => o.OrderId == orderId);
+                if (e != null)
                     m = _mapper.Map<df.Entities.Orders, df.Models.Order>(e);
             }
             catch (Exception ex)
@@ -62,7 +64,7 @@ namespace McAlister.Study.CoreSample1.Models
             var lstModel = new List<df.Models.Order>();
             try
             {
-                var lstEntity = base.GetList(o=>o.CustomerId== customerId || !customerId.HasValue);
+                var lstEntity = base.GetList(o => o.CustomerId == customerId || !customerId.HasValue);
                 lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
             }
             catch (Exception ex)
@@ -84,7 +86,7 @@ namespace McAlister.Study.CoreSample1.Models
             base.Update(eOrder);
         }
 
-        public override bool IsValid(df.Entities.Orders entity,ref string msg)
+        public override bool IsValid(df.Entities.Orders entity, ref string msg)
         {
             Boolean valid = true;
             if (entity.OrderLines == null || !entity.OrderLines.Any())
@@ -104,7 +106,7 @@ namespace McAlister.Study.CoreSample1.Models
         }
 
         public override df.Entities.Orders FindExact(df.Entities.Orders ord)
-        {     
+        {
             //intended for use internally by ModelBase
             //entity is used as a search object
             var ent = base.Get(p => p.OrderId == ord.OrderId);

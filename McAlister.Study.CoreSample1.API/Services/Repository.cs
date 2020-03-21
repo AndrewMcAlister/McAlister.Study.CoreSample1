@@ -47,23 +47,7 @@ namespace McAlister.Study.CoreSample1.Services
         {
         }
 
-        public ICollection<dfe.Orders> GetOrdersNoEF()
-        {
-            var sql = $"Select * from Orders";
-            var sqldb = GetSQLDbObj();
-            var dt = sqldb.GetData(sql);
-            var results = Utility.ConvertDataTableToList<dfe.Orders>(dt);
-            return results;
-        }
-
-        public DataTable GetOrdersNoEFDT()
-        {
-            var sql = $"Select * from Orders";
-            var sqldb = GetSQLDbObj();
-            var dt = sqldb.GetData(sql);
-            return dt;
-        }
-
+        #region Generic
         ICollection<T> df.IRepository.GetList<T>(Expression<Func<T, bool>> predicate)
         {
             return base.GetList<T>(predicate).ToList();
@@ -83,6 +67,26 @@ namespace McAlister.Study.CoreSample1.Services
         {
             return base.GetList<T>().ToList();
         }
+        #endregion
+
+        #region Orders
+        public ICollection<dfe.Orders> GetOrdersNoEF()
+        {
+            var sql = $"Select * from Orders";
+            var sqldb = GetSQLDbObj();
+            var dt = sqldb.GetData(sql);
+            var results = Utility.ConvertDataTableToList<dfe.Orders>(dt);
+            return results;
+        }
+
+        public DataTable GetOrdersNoEFDT()
+        {
+            var sql = $"Select * from Orders";
+            var sqldb = GetSQLDbObj();
+            var dt = sqldb.GetData(sql);
+            return dt;
+        }
+        #endregion
 
         void IDisposable.Dispose()
         {

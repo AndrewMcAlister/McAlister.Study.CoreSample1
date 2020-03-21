@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -23,8 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\McAlister.Study.CoreSample1.API\McAlister.Study.CoreSample.API.csproj" />
     <ProjectReference Include="..\McAlister.Study.CoreSample1.DAL\McAlister.Study.CoreSample1.DAL.csproj" />
-    <ProjectReference Include="..\McAlister.Study.CoreSample1\McAlister.Study.CoreSampleRepository.csproj" />
+    <ProjectReference Include="..\McAlister.Study.CoreSample1\McAlister.Study.CoreSampleAPI.csproj" />
   </ItemGroup>
 
 </Project>

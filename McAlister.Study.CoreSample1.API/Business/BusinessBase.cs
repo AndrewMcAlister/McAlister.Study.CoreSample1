@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using df=McAlister.Study.CoreSample1.Definitions;
 
-namespace McAlister.Study.CoreSample1.Models
+namespace McAlister.Study.CoreSample1.Business
 {
-    public abstract class ModelBase<T> where T : class
+    public abstract class BusinessBase<T> where T : class
     {
         public df.IRepository Repo { get; set; }
 
@@ -16,7 +16,7 @@ namespace McAlister.Study.CoreSample1.Models
 
         public abstract T FindExact(T entity);
 
-        public ModelBase(df.IRepository repo)
+        public BusinessBase(df.IRepository repo)
         {
             Repo = repo;
         }
