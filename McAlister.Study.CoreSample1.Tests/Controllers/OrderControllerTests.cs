@@ -14,14 +14,15 @@ namespace McAlister.Study.CoreSample1.Tests.Controllers
 
         }
 
+        //Conclusion: Repository pattern is no slower than direct DBContext, probably thanks to the compiler.
         [TestMethod]
         public void GetOrdersSpeedTest()
         {
-            for (int j = 1; j < 8; j++)
+            for (int j = 1; j < 8; j++) //8 reps is about right for a 16Gb computer, anymore and tests tend to fail
             {
                 for (int i = 1; i < 1062; i++)
                 {
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost:5001/api/Orders/Customer/{i}/page=1");
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer/{i}/page=1");
                     var r = (HttpWebResponse)request.GetResponse();
                     Stream receiveStream = r.GetResponseStream();
                     Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
