@@ -44,22 +44,6 @@ namespace McAlister.Study.CoreSample1.Business
             var lstModel = new List<df.Models.Order>();
             try
             {
-                //var lstEntity = base.GetList(o => o.CustomerId == customerId || !customerId.HasValue);
-                var lstEntity = GetList(o => o.CustomerId == customerId || !customerId.HasValue,orderBy: (p=>p.OrderDate),true, _pageSize,page.Value);
-                lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return lstModel;
-        }
-
-        public List<df.Models.Order> GetOrders2(int? customerId, int? page = 1)
-        {
-            var lstModel = new List<df.Models.Order>();
-            try
-            {
                 var lstEntity = Repo.Orders.Where(p => (!customerId.HasValue || p.CustomerId == customerId.Value))
                     .OrderByDescending(p => p.OrderDate).Skip(_pageSize * (page.Value - 1)).Take(_pageSize).ToList();
                 lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);

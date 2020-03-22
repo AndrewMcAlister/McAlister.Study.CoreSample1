@@ -15,72 +15,25 @@ namespace McAlister.Study.CoreSample1.Tests.Controllers
         }
 
         [TestMethod]
-        public void GetOrdersSpeedTestRepo()
+        public void GetOrdersSpeedTest()
         {
-            for (int i = 1; i < 1062; i++)
+            for (int j = 1; j < 8; j++)
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer/{i}/page=1");
-                var r = (HttpWebResponse)request.GetResponse();
-                Stream receiveStream = r.GetResponseStream();
-                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                using (StreamReader sr = new StreamReader(receiveStream, encode))
+                for (int i = 1; i < 1062; i++)
                 {
-                    String str = sr.ReadToEnd();
-                    Console.Write(str);
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost:5001/api/Orders/Customer/{i}/page=1");
+                    var r = (HttpWebResponse)request.GetResponse();
+                    Stream receiveStream = r.GetResponseStream();
+                    Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
+                    using (StreamReader sr = new StreamReader(receiveStream, encode))
+                    {
+                        String str = sr.ReadToEnd();
+                        Console.Write(str);
+                    }
                 }
             }
         }
 
-        [TestMethod]
-        public void GetOrdersSpeedTestDbContext()
-        {
-            for (int i = 1; i < 1062; i++)
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer2/{i}/page=1");
-                var r = (HttpWebResponse)request.GetResponse();
-                Stream receiveStream = r.GetResponseStream();
-                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                using (StreamReader sr = new StreamReader(receiveStream, encode))
-                {
-                    String str = sr.ReadToEnd();
-                    Console.Write(str);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GetOrdersSpeedTestRepo2()
-        {
-            for (int i = 1; i < 1062; i++)
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer/{i}/page=1");
-                var r = (HttpWebResponse)request.GetResponse();
-                Stream receiveStream = r.GetResponseStream();
-                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                using (StreamReader sr = new StreamReader(receiveStream, encode))
-                {
-                    String str = sr.ReadToEnd();
-                    Console.Write(str);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GetOrdersSpeedTestDbContext2()
-        {
-            for (int i = 1; i < 1062; i++)
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"https://localhost/api/Orders/Customer2/{i}/page=1");
-                var r = (HttpWebResponse)request.GetResponse();
-                Stream receiveStream = r.GetResponseStream();
-                Encoding encode = System.Text.Encoding.GetEncoding("utf-8");
-                using (StreamReader sr = new StreamReader(receiveStream, encode))
-                {
-                    String str = sr.ReadToEnd();
-                    Console.Write(str);
-                }
-            }
-        }
         //[TestMethod]
         //public void GetApplicationsNoEFSpeedTest()
         //{

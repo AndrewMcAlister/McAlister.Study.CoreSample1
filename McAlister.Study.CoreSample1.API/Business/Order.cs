@@ -22,6 +22,11 @@ namespace McAlister.Study.CoreSample1.Business
             _mapper = mapper;
         }
 
+        //public OrderCtx(WideWorldImportersContext repo, IMapper mapper) : base(repo)
+        //{
+        //    _mapper = mapper;
+        //}
+
         public df.Models.Order GetOrder(int orderId)
         {
             df.Models.Order m = null;
@@ -54,21 +59,21 @@ namespace McAlister.Study.CoreSample1.Business
             return lstModel;
         }
 
-        public List<df.Models.Order> GetOrders2(int? customerId, int? page = 1)
-        {
-            var lstModel = new List<df.Models.Order>();
-            try
-            {
-                var lstEntity = Repo.Context.Orders.Where(p => (!customerId.HasValue || p.CustomerId == customerId.Value))
-                    .OrderByDescending(p => p.OrderDate).Skip(_pageSize * (page.Value - 1)).Take(_pageSize).ToList();
-                lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
-            }
-            catch (Exception ex)
-            {
+        //public List<df.Models.Order> GetOrders(int? customerId, int? page = 1)
+        //{
+        //    var lstModel = new List<df.Models.Order>();
+        //    try
+        //    {
+        //        var lstEntity = Repo.Context.Orders.Where(p => (!customerId.HasValue || p.CustomerId == customerId.Value))
+        //            .OrderByDescending(p => p.OrderDate).Skip(_pageSize * (page.Value - 1)).Take(_pageSize).ToList();
+        //        lstModel = _mapper.Map<List<df.Entities.Orders>, List<df.Models.Order>>(lstEntity);
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-            }
-            return lstModel;
-        }
+        //    }
+        //    return lstModel;
+        //}
 
         public void Insert(df.Models.Order order)
         {

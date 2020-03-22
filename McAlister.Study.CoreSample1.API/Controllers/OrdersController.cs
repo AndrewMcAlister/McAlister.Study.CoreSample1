@@ -22,12 +22,17 @@ namespace McAlister.Study.CoreSample1.Controllers
         private OrderCtx _orderCtx;
         private ILogger<DebugLoggerProvider> _loggerDebug;
 
-        public OrdersController(IRepository repo, IMapper mapper, ILogger<DebugLoggerProvider> logger, Order order, OrderCtx orderCtx)
+        public OrdersController(IMapper mapper, ILogger<DebugLoggerProvider> logger, Order order)
         {
             _order = order;
-            _orderCtx = orderCtx;
             _loggerDebug = logger;
         }
+
+        //public OrdersController(IMapper mapper, ILogger<DebugLoggerProvider> logger, OrderCtx orderCtx)
+        //{
+        //    _orderCtx = orderCtx;
+        //    _loggerDebug = logger;
+        //}
 
         // GET: api/orders/order
         [HttpGet]
@@ -67,6 +72,7 @@ namespace McAlister.Study.CoreSample1.Controllers
             try
             {
                 ords = _order.GetOrders(customerId,page);
+                //ords = _orderCtx.GetOrders(customerId, page);
                 if (ords == null || !ords.Any())
                 {
                     status = HttpStatusCode.NotFound;
@@ -81,33 +87,6 @@ namespace McAlister.Study.CoreSample1.Controllers
             var res = Utility.CreateAPIResponse(ords, status, _loggerDebug, exForReponse);
             return res;
         }
-
-        // GET: api/orders/Customer
-        [HttpGet]
-        [Route("Customer2/{customerId}/page={page}")]
-        public APIResponse GetOrders2(int? customerId=null, int? page = null)
-        {
-            HttpStatusCode status = HttpStatusCode.OK;
-            List<df.Models.Order> ords = null;
-            Exception exForReponse = null;
-            try
-            {
-                ords = _orderCtx.GetOrders(customerId, page);
-                if (ords == null || !ords.Any())
-                {
-                    status = HttpStatusCode.NotFound;
-                }
-                //else if (other conditions)
-                //status = HttpStatusCode.BadRequest; etc
-            }
-            catch (Exception ex)
-            {
-                exForReponse = ex;
-            }
-            var res = Utility.CreateAPIResponse(ords, status, _loggerDebug, exForReponse);
-            return res;
-        }
-
 
         // POST: api/orders
         [HttpPost]
