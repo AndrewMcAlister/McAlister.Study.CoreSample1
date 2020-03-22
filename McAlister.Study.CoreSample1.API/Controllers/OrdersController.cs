@@ -14,6 +14,30 @@ using df = McAlister.Study.CoreSample1.Definitions;
 
 namespace McAlister.Study.CoreSample1.Controllers
 {
+    /// <summary>
+    /// Designing RESTful Web APIs by Shawn Wildermuth
+    /// Learning points
+    /// Routes should have nouns,rather than verbs (not an absolute rule though)
+    /// When paging, return a count of records (put in wrapper object), a link to next page and previous page.
+    /// Use ETags to prevent stale data being updated.
+    /// Versioning
+    /// Versioning in URI path not recommended, brittle, client links need update every version change.  Strongly not recommended except for very simple app.
+    /// Versioning in Query String problemmatic because users forget to add version in query string - developers forget which version they should use
+    /// Versioning with headers: Decouples version from API - less discoverable.  If not given, supply latest version.
+    /// Version with an Accept header: Accept header keeps version and sends it back when user sends back data. Not very discoverable.
+    /// Versioning with Content Type: Custom content type which includes version. 
+    /// Security:
+    /// SSL certificate,
+    /// Cross Origin Security - allow cross domain on public API. Cross Origin Resource Sharing (CORS).  
+    /// Authorization/Authentication
+    /// App authentication App ID + key
+    /// User authentication
+    /// Cookies: subject to request forgery
+    /// Basic Auth: Very insecure, unless SSL, even then risky - creds every request
+    /// Token Based Auth - secure, simple.  Expires faster than cookies.
+    /// Json Web Token, commonly used, has user info, claims, validation signature, other info
+    /// OAuth - uses trusted third party, you never receive creds, you get token.  Sometimes used.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
@@ -63,7 +87,7 @@ namespace McAlister.Study.CoreSample1.Controllers
 
         // GET: api/orders/Customer
         [HttpGet]
-        [Route("Customer/{customerId}/page={page}")]
+        [Route("Customer")]
         public APIResponse GetOrders(int? customerId=null, int? page=null)
         {
             HttpStatusCode status = HttpStatusCode.OK;
